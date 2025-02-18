@@ -34,7 +34,7 @@ int main(int argc, char** argv)
 
     if(argc > 3)
     {
-        showBoats = strcmp(argv[3], "showBoats") == 0;
+        showBoats = strcmp(argv[3], "--showBoats") == 0;
     }
 
     if (openServerConnection(argc, argv) == -1) 
