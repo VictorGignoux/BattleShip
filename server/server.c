@@ -32,7 +32,10 @@ int main(int argc, char** argv)
         exit(1);
     }
 
-    showBoats = strcmp(argv[3], "showBoats") == 0;
+    if(argc > 3)
+    {
+        showBoats = strcmp(argv[3], "showBoats") == 0;
+    }
 
     if (openServerConnection(argc, argv) == -1) 
     {
