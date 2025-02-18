@@ -20,14 +20,15 @@ int len;
 long int ret = 0;
 
 enum cellState board[BOARD_SIZE][BOARD_SIZE];
-int nbShots = 50;
+int nbShots = 30;
 bool hasWon = false;
 
 //arg 0 : program call (./client)
 //arg 1 : id
 //arg 2 : @IP
 //arg 3 : sport
-int main(int argc, char** argv){
+int main(int argc, char** argv)
+{
 
     // Text in case not enough arguments are sent
     if (argc!=4)
@@ -48,23 +49,28 @@ int main(int argc, char** argv){
     return 0;
 }
 
-void disconnect(enum disconnectType type) {
+void disconnect(enum disconnectType type) 
+{
     // end of the game
-    if (close(sock) == -1) {
+    if (close(sock) == -1) 
+    {
         fprintf(stderr,"Error while closing the socket: %s\n", strerror(errno));
     }
-    else {
+    else 
+    {
         printf("Socket closed.\n");
         printf("Game is over, hope to see you soon\n");
     }
     exit(0);
 }
-void signalCatch(int sig) {
+void signalCatch(int sig) 
+{
     printf(" Caught\n");
     disconnect(full);
 }
 
-int connectToServer(int argc, char** argv) {
+int connectToServer(int argc, char** argv) 
+{
     // Set the id of the client and the server port
     id= argv[1];
     sport= atoi(argv[3]);
@@ -92,7 +98,8 @@ int connectToServer(int argc, char** argv) {
     return 0;
 }
 
-char * listenToServer() {
+char * listenToServer() 
+{
     len=sizeof(client);
     getsockname(sock,(struct  sockaddr  *)&client,(unsigned int *)&len); // Set the socket to the struct and set its len
 
@@ -107,7 +114,8 @@ char * listenToServer() {
     // "listen" to messages from the server
     while(1)
     {
-        if(read(sock, buf_read, SIZE_BUFFERS) > 0) {
+        if(read(sock, buf_read, SIZE_BUFFERS) > 0) 
+        {
             lastServerMessage = buf_read;
             //printf("New message from the server: %s\n", lastServerMessage);
             return lastServerMessage;
@@ -127,31 +135,38 @@ char * listenToServer() {
     //disconnect(full);
 }
 
-void write_board(enum cellState aBoard[BOARD_SIZE][BOARD_SIZE], int x, int y){
+void write_board(enum cellState aBoard[BOARD_SIZE][BOARD_SIZE], int x, int y)
+{
 
     system("clear");
 
     int i, j;
     char buf_write[256];
 
-    for(i = 0; i < BOARD_SIZE; i++){
+    for(i = 0; i < BOARD_SIZE; i++)
+    {
         // draw the first line
-        for(j = 0; j < BOARD_SIZE; j++){
+        for(j = 0; j < BOARD_SIZE; j++)
+        {
             write(1, "\033[40m      \033[0m", 15);
         }
         write(1, "\033[40m   \033[0m", 12);
         write(1, "\n", 2);
 
         // draw the lines and the cells depending to their state
-        for(j = 0; j < BOARD_SIZE; j++){
+        for(j = 0; j < BOARD_SIZE; j++)
+        {
             write(1, "\033[40m   \033[0m", 12);
-            if(aBoard[i][j] == EMPTY){
+            if(aBoard[i][j] == EMPTY)
+            {
                 write(1, "\033[43m   \033[0m", 12);
             }
-            else if(aBoard[i][j] == PLOUF){
+            else if(aBoard[i][j] == PLOUF)
+            {
                 write(1, "\033[47m   \033[0m", 12);
             }
-            else if(aBoard[i][j] == BOATED){
+            else if(aBoard[i][j] == BOATED)
+            {
                 write(1, "\033[41m   \033[0m", 12);
             }
         }
@@ -164,14 +179,16 @@ void write_board(enum cellState aBoard[BOARD_SIZE][BOARD_SIZE], int x, int y){
     }
 
     // draw the last line
-    for(j = 0; j < BOARD_SIZE; j++){
+    for(j = 0; j < BOARD_SIZE; j++)
+    {
         write(1, "\033[40m      \033[0m", 15);
     }
     write(1, "\033[40m   \033[0m", 12);
     write(1, "\n", 2);
 
     // draw the numbers of the columns
-    for(i = 0; i < BOARD_SIZE; i++){
+    for(i = 0; i < BOARD_SIZE; i++)
+    {
         sprintf(buf_write, "    %d ", i+1);
         write(1, buf_write, 6);
     }
@@ -185,23 +202,29 @@ void write_board(enum cellState aBoard[BOARD_SIZE][BOARD_SIZE], int x, int y){
     }
 }
 
-void write_board2(enum cellState aBoard[BOARD_SIZE][BOARD_SIZE], int x, int y){
+void write_board2(enum cellState aBoard[BOARD_SIZE][BOARD_SIZE], int x, int y)
+{
 
     system("clear");
 
     int i, j;
     char buf_write[256];
 
-    for(i = 0; i < BOARD_SIZE; i++){
+    for(i = 0; i < BOARD_SIZE; i++)
+    {
         // draw the lines
-        for(j = 0; j < BOARD_SIZE; j++){
-            if(aBoard[i][j] == EMPTY){
+        for(j = 0; j < BOARD_SIZE; j++)
+        {
+            if(aBoard[i][j] == EMPTY)
+            {
                 write(1, "\033[43m . \033[0m", 12);
             }
-            else if(aBoard[i][j] == PLOUF){
+            else if(aBoard[i][j] == PLOUF)
+            {
                 write(1, "\033[47m O \033[0m", 12);
             }
-            else if(aBoard[i][j] == BOATED){
+            else if(aBoard[i][j] == BOATED)
+            {
                 write(1, "\033[41m X \033[0m", 12);
             }
         }
@@ -212,7 +235,8 @@ void write_board2(enum cellState aBoard[BOARD_SIZE][BOARD_SIZE], int x, int y){
     }
 
     //draw the numbers of the columns
-    for(i = 0; i < BOARD_SIZE; i++){
+    for(i = 0; i < BOARD_SIZE; i++)
+    {
         sprintf(buf_write, " %d ", i+1);
         write(1, buf_write, 3);
     }
@@ -226,11 +250,14 @@ void write_board2(enum cellState aBoard[BOARD_SIZE][BOARD_SIZE], int x, int y){
     }
 }
 
-void setupGame() {
+void setupGame() 
+{
     // initialisation of the board
     int i, j;
-    for(i = 0; i < BOARD_SIZE; i++){
-        for(j = 0; j < BOARD_SIZE; j++){
+    for(i = 0; i < BOARD_SIZE; i++)
+    {
+        for(j = 0; j < BOARD_SIZE; j++)
+        {
             board[i][j] = EMPTY;
         }
     }
@@ -238,19 +265,23 @@ void setupGame() {
     write_board(board, -1, -1);
 }
 
-void gameLoop() {
-    while(!hasWon && nbShots > 0){
+void gameLoop() 
+{
+    while(!hasWon && nbShots > 0)
+    {
         char buf_write[256];
-        int x, y;
+        int x=0, y=0;
         printf("Entrez une case (x-y) : ");
         scanf("%d-%d", &y, &x);
 
-        if(x > 0 && x <= 50 && y > 0 && y <= 50)
+        if(x > 0 && x <= BOARD_SIZE && y > 0 && y <= BOARD_SIZE)
         {
-            if(board[x-1][y-1] != EMPTY){
-                printf("ERROR : case deja jouee !\n");
+            if(board[x-1][y-1] != EMPTY)
+            {
+                printf("ERREUR : case deja jouee !\n");
             }
-            else{
+            else
+            {
                 //envoi de la case au serveur
                 nbShots--;
                 sprintf(buf_write, "%d-%d", y, x);
@@ -259,10 +290,12 @@ void gameLoop() {
                 //check message de retour
                 char response[256];
                 sprintf(response, listenToServer());
-                if(strcmp(response, MSG_NOTHING_TOUCHED)){
+                if(strcmp(response, MSG_NOTHING_TOUCHED))
+                {
                     board[x-1][y-1] = PLOUF;
                 }
-                else{
+                else
+                {
                     board[x-1][y-1] = BOATED;
                 }
 
@@ -272,12 +305,20 @@ void gameLoop() {
                 printf(response);
             }
         }
-        else{
-            printf("ERROR : case %d-%d impossible !\n", y ,x);
+        else
+        {
+            printf("ERREUR : case inexistante !\n");
+        }
+
+        int buffer = 0;
+        while(buffer != '\n' && buffer != EOF)
+        {
+            buffer = getchar();
         }
     }
 
-    if(nbShots == 0){
+    if(nbShots == 0)
+    {
         printf(MSG_GAME_LOST);
     }
 }
