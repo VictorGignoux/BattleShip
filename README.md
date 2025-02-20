@@ -45,4 +45,4 @@ Ensuite, lancez l'instance `Client` avec cette commande :
 
 Si le client affiche un tableau alors la partie est lancée. Vous pouvez vérifier sur l'instance `Server` que le `Client` a bien rejoint.
 
-Vous avez maitenant 50 essais pour trouver tous les bateaux. Pour toucher une case, entrez ses coordonnées séparées d'un tiret (exemple : 4-15, c'est la colonne 4, ligne 15).
+Vous avez maitenant 30 essais pour trouver les deux bateaux. Pour toucher une case, entrez ses coordonnées séparées d'un tiret (exemple : 4-15, c'est la colonne 4, ligne 15).
